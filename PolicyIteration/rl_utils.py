@@ -42,6 +42,28 @@ def valLookup(grid, direction, refPosition, deltaState=None):
     # normal exit
     return grid[testPosition[0],testPosition[1]]
 
+
+#
+# Return policy
+#
+
+def policyLookup(policy, state, actions):
+        
+    estLen=100 # ccreate vector for random sampling
+    actionList=[]
+    currPolicyGivenState=policy[str(state)]
+    for iAction in actions:
+        actionCount=int(currPolicyGivenState[iAction]*1.0*estLen)
+        for j in range(actionCount):
+            actionList.append(iAction)
+        
+    while len(actionList)<estLen: # make sure we are not empty
+        actionList.append(iAction)
+        
+    actionList=actionList[:estLen] # clip output
+        
+    return actionList[np.random.randint(0,estLen)]
+
 #
 # End of script
 #
